@@ -1,75 +1,90 @@
-import { getMap, getCoords } from '../map'
 import { element } from 'deku'
+import { getCoords } from '../../modules/geolocation'
+import { updateMap } from '../map'
 
 const id = '1BHnaan3YfSDq9_LzjthDXjj5dzJZANjLSb8JHPl5'
 
 
+// Query variables
 let lat
 let lng
 let radius = 300
+
+getCoords().then((coords) => {
+    lat = coords.lat
+    lng = coords.lng
+    getSpecials()
+})
+
 function render(component) {
-    getCoords().then((coords) => {
-        lat = coords.lat
-        lng = coords.lng
-        getSpecials()
-    })
     return (
         <form>
-            <input onChange={changeRange} type="range" step="100" value={radius} min="100" max="5000" />
+            <input
+                onInput={changeRadiusRange}
+                name="radius-range"
+                class="mdl-slider mdl-js-slider"
+                type="range"
+                step="100"
+                min="100"
+                max="5000"
+                value={radius}
+            />
+            <input
+                onInput={changeRadiusInput}
+                name="radius-number"
+                type="number"
+                step="50"
+                min="100"
+                max="5000"
+                value={radius}
+            />
+            <label> Food:
+                <input
+                    name="food"
+                    type="checkbox"
+                    checked
+                />
+            </label>
+            <label> Drink:
+                <input
+                    name="food"
+                    type="checkbox"
+                    checked
+                />
+            </label>
         </form>
     )
 }
 
+let el
+function afterRender(component, _el) {
+    el = _el
+}
 
-let fusionTablesLayer
-let posMarker
-let circleLayer
 function getSpecials() {
-    getMap().then((map) => {
-        let query = {
-            select: 'address'
-          , from: id
-          , where: `ST_INTERSECTS(address,
-                CIRCLE(LATLNG(${lat}, ${lng}), ${radius}))
-            `
-        }
-
-        if (!fusionTablesLayer) {
-            fusionTablesLayer = new google.maps.FusionTablesLayer({
-                map: map
-            })
-
-            posMarker = new google.maps.Marker({
-                map: map
-              , clickable: false
-              , draggable: true
-            })
-            posMarker.addListener('dragend', markerDragged)
-
-            circleLayer = new google.maps.Circle({
-                map: map
-              , strokeColor: '#00f'
-              , strokeWeight: 2
-              , fillColor: '#00f'
-              , fillOpacity: .35
-              , clickable: false
-            })
-        }
-        fusionTablesLayer.setQuery(query)
-
-        posMarker.setPosition(new google.maps.LatLng(lat, lng))
-
-        circleLayer.setCenter(new google.maps.LatLng(lat, lng))
-        circleLayer.setRadius(radius)
-
-        map.fitBounds(circleLayer.getBounds())
-    })
+    let query = {
+        select: 'address'
+      , from: id
+      , where: `ST_INTERSECTS(address,
+            CIRCLE(LATLNG(${lat}, ${lng}), ${radius}))
+        `
+    }
+    updateMap(lat, lng, radius, query)
 }
 
 
 /* Events */
-function changeRange(e) {
+function changeRadiusRange(e) {
     radius = e.delegateTarget.valueAsNumber
+    el.querySelector('[name=radius-number]').value = radius
+
+    getSpecials()
+}
+
+function changeRadiusInput(e) {
+    radius = e.delegateTarget.valueAsNumber
+    el.querySelector('[name=radius-range]').value = radius
+
     getSpecials()
 }
 
@@ -80,4 +95,5 @@ function markerDragged(e) {
 }
 
 
-export default { render }
+export { markerDragged }
+export default { render, afterRender }
