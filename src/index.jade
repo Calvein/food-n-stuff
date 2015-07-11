@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        title 🍔 Food'n Stuff 🍕
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0')
+        link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto:300,400')
+        link(rel='stylesheet', href='index.css')
+        if env === 'dev'
+            script.
+                var lrScript = '<script src="//' + location.hostname + ':' +
+                               '!{ portLr }/livereload.js?snipver=1"><\/script>'
+                document.write(lrScript)
+    body
+        main
+        - var suffix = 'js'
+        if env !== 'dev'
+            - suffix = 'min.' + suffix
+        script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCsFG6MdeMvvJ-5pd7Ck2R-ArDUTbxo7sw')
+        script(src='app.js')
