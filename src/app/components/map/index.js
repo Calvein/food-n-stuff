@@ -10,7 +10,7 @@ function render(component) {
 }
 
 let map
-function afterMount(component, el, setState) {
+function afterRender(component, el, setState) {
     map = getMap(el)
 }
 
@@ -70,4 +70,4 @@ function updateMap(lat, lng, radius, query) {
 }
 
 export { updateMap }
-export default { render, afterMount }
+export default { render, afterRender }

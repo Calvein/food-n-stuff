@@ -19,6 +19,19 @@ getCoords().then((coords) => {
 function render(component) {
     return (
         <form>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input
+                    class="mdl-textfield__input"
+                    onInput={changeRadiusInput}
+                    name="radius-number"
+                    type="number"
+                    step="50"
+                    min="100"
+                    max="5000"
+                    value={radius}
+                />
+                <label class="mdl-textfield__label">Distance (m)</label>
+            </div>
             <input
                 onInput={changeRadiusRange}
                 name="radius-range"
@@ -29,36 +42,33 @@ function render(component) {
                 max="5000"
                 value={radius}
             />
-            <input
-                onInput={changeRadiusInput}
-                name="radius-number"
-                type="number"
-                step="50"
-                min="100"
-                max="5000"
-                value={radius}
-            />
-            <label> Food:
+            <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect">
                 <input
                     name="food"
                     type="checkbox"
+                    class="mdl-icon-toggle__input"
                     checked
                 />
+                <i class="mdl-icon-toggle__label material-icons">local_dining</i>
             </label>
-            <label> Drink:
+            <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect">
                 <input
                     name="food"
                     type="checkbox"
+                    class="mdl-icon-toggle__input"
                     checked
                 />
+                <i class="mdl-icon-toggle__label material-icons">local_bar</i>
             </label>
         </form>
     )
 }
 
-let el
-function afterRender(component, _el) {
-    el = _el
+let radiusSlider
+let radiusNumber
+function afterRender(component, el) {
+    radiusSlider = el.querySelector('[name=radius-range]')
+    radiusNumber = el.querySelector('[name=radius-number]')
 }
 
 function getSpecials() {
@@ -75,15 +85,28 @@ function getSpecials() {
 
 /* Events */
 function changeRadiusRange(e) {
-    radius = e.delegateTarget.valueAsNumber
-    el.querySelector('[name=radius-number]').value = radius
+    radius = radiusSlider.valueAsNumber
+    radiusNumber.value = radius
 
     getSpecials()
 }
 
 function changeRadiusInput(e) {
-    radius = e.delegateTarget.valueAsNumber
-    el.querySelector('[name=radius-range]').value = radius
+    let value = radiusNumber.valueAsNumber
+
+    // Prevent non numbers values
+    if (isNaN(value)) {
+        radiusNumber.value = radiusNumber.value
+        return
+    }
+
+    // Clamp value
+    if (value > radiusNumber.max) value = +radiusNumber.max
+    if (value < radiusNumber.min) value = +radiusNumber.min
+    radius = value
+
+    radiusNumber.value = radius
+    radiusSlider.MaterialSlider.change(radius)
 
     getSpecials()
 }
