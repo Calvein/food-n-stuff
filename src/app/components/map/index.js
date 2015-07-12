@@ -111,7 +111,7 @@ function updateMap(props) {
               , strokeColor: '#3f51b5'
               , strokeWeight: 2
               , fillColor: '#3f51b5'
-              , fillOpacity: .35
+              , fillOpacity: .2
               , clickable: false
             })
         }
