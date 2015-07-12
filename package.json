@@ -36,6 +36,6 @@
     "watchify": "^3.2.2"
   },
   "dependencies": {
-    "deku": "^0.4.5"
+    "deku": "^0.4.9"
   }
 }

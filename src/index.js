@@ -6,4 +6,4 @@ import { render, tree, element } from 'deku'
 var app = tree(<App />)
 
 // Render into the DOM
-render(app, document.querySelector('main'))
+render(app, document.querySelector('.app'))

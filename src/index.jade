@@ -13,7 +13,7 @@ html(lang='en')
                                '!{ portLr }/livereload.js?snipver=1"><\/script>'
                 document.write(lrScript)
     body
-        main
+        .app
         - var suffix = 'js'
         if env !== 'dev'
             - suffix = 'min.' + suffix
