@@ -152,6 +152,21 @@ function watch() {
     })
 }
 
+/* Cli shortcuts
+ * rs: rebuild
+ * cp: copy static files
+ */
+process.stdin.on('data', function (data) {
+    data = (data + '').trim().toLowerCase()
+    switch (data) {
+        case 'rs':
+            build()
+            break
+        case 'cp':
+            console.log('copy')
+            break
+    }
+})
 
 /* Tasks */
 gulp.task('build', function() {
