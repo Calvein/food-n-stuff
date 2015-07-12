@@ -1,11 +1,19 @@
 .radius
     display flex
     align-items center
-    padding 4px 8px
+    padding 4px 0
+    border-top 1px solid grey-lighter
 
-    textFieldWidth = 75px
+    textFieldWidth = 100px
     .mdl-slider__container
         width 'calc(100% - %s)' % textFieldWidth
 
     .mdl-textfield
         width textFieldWidth
+        border-left 1px solid grey-lighter
+
+        // .mdl-textfield__label
+        &__label
+        &
+            padding-left 15px
+            padding-right 15px
