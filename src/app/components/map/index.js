@@ -74,6 +74,25 @@ function updateMap(props) {
             fusionTablesLayer = new google.maps.FusionTablesLayer({
                 map: map
             })
+            fusionTablesLayer.addListener('click', (e) => {
+                let getVal = (col) => {
+                    let value = e.row[col].value
+                    if (col === 'from' || col === 'to') {
+                        value = value.replace(/(..)$/, ':$1')
+                    }
+
+                    return value
+                }
+
+                e.infoWindowHtml = `
+                    <div class="infowindow">
+                        <div class="infowindow__name">${getVal('establishment')}</div>
+                        <div class="infowindow__address">${getVal('address')}</div>
+                        <div class="infowindow__description">${getVal('description')}</div>
+                        <div class="infowindow__time">From ${getVal('from')} to ${getVal('to')}</div>
+                    </div>
+                `
+            })
 
             posMarker = new google.maps.Marker({
                 map: map
@@ -81,7 +100,11 @@ function updateMap(props) {
               , draggable: true
               , animation: google.maps.Animation.DROP
             })
-            posMarker.addListener('dragend', markerDragged(props))
+            posMarker.addListener('dragend', (e) => {
+                props.lat = e.latLng.lat()
+                props.lng = e.latLng.lng()
+                getSpecials(props)
+            })
 
             circleLayer = new google.maps.Circle({
                 map: map
@@ -102,12 +125,6 @@ function updateMap(props) {
         map.fitBounds(circleLayer.getBounds())
     })
 }
-
-function markerDragged(props) { return (e) => {
-    props.lat = e.latLng.lat()
-    props.lng = e.latLng.lng()
-    getSpecials(props)
-}}
 
 
 export default { defaultProps, render, afterRender }
