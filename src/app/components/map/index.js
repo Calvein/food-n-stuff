@@ -1,4 +1,4 @@
-import { element } from 'deku'
+import { dom } from 'deku'
 import { eventDispatcher } from '../..'
 import { getCoords } from '../../modules/geolocation'
 
@@ -22,7 +22,13 @@ function render({ props }) {
 }
 
 function afterRender({ props }, el) {
-    getMap(el, props).then(() => getSpecials(props))
+    getMap(el, props).then((map) => {
+        getSpecials(props)
+
+        eventDispatcher.on('resize', () => {
+            map.setCenter(new google.maps.LatLng(props.lat, props.lng))
+        })
+    })
 
     // Listeners
     eventDispatcher.on('changes:types', (types) => {

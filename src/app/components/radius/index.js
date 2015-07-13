@@ -1,4 +1,4 @@
-import { element } from 'deku'
+import { dom } from 'deku'
 import { eventDispatcher } from '../..'
 
 

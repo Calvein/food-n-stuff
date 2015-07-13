@@ -1,5 +1,5 @@
 import App from './app'
-import { render, tree, element } from 'deku'
+import { render, tree, dom } from 'deku'
 
 
 // Create the app

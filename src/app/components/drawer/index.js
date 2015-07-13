@@ -1,4 +1,4 @@
-import { element } from 'deku'
+import { dom } from 'deku'
 
 function render(component) {
     return (

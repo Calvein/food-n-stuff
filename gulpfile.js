@@ -51,7 +51,7 @@ function scriptCompile(cb) {
           , fullPaths: true
         }))
         .transform(babelify.configure({
-            jsxPragma: 'element'
+            jsxPragma: 'dom'
         }))
         .on('update', function() {
             scriptCompile(function() {

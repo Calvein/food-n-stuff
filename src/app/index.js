@@ -1,9 +1,10 @@
+import { element, dom } from 'deku'
 import { EventEmitter } from 'events'
+import debounce from 'debounce'
 import Header from './components/header'
 import Drawer from './components/drawer'
 import MapComponent from './components/map'
 import Radius from './components/radius'
-import { element } from 'deku'
 
 function render(component) {
     let radius = 300
@@ -23,7 +24,12 @@ function render(component) {
 }
 
 // Global event emitter
-let emitter = new EventEmitter
+let eventDispatcher = new EventEmitter
+window.addEventListener('resize', debounce(resize, 200))
+function resize(e) {
+    eventDispatcher.emit('resize')
+}
 
-export { emitter as eventDispatcher }
+
+export { eventDispatcher }
 export default { render }
