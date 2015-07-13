@@ -1,4 +1,4 @@
-import { element, dom } from 'deku'
+import { dom } from 'deku'
 import { EventEmitter } from 'events'
 import debounce from 'debounce'
 import Header from './components/header'

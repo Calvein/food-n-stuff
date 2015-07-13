@@ -47,17 +47,14 @@ function render({ props }) {
         let value = radiusNumber.valueAsNumber
 
         // Prevent non numbers values
-        if (isNaN(value)) {
-            radiusNumber.value = radiusNumber.value
+        if (isNaN(value))
             return
-        }
 
-        // Clamp value
-        if (value > radiusNumber.max) value = +radiusNumber.max
-        if (value < radiusNumber.min) value = +radiusNumber.min
+        // Prevent too extremes values
+        if (value > radiusNumber.max) return
+        if (value < radiusNumber.min) return
+
         props.radius = value
-
-        radiusNumber.value = props.radius
         radiusSlider.MaterialSlider.change(props.radius)
 
         sendRadius(props.radius)
