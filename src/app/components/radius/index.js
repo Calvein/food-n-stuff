@@ -32,8 +32,8 @@ function render({ props }) {
         </div>
     )
 
-    function sendRadius(radius) {
-        props.ed.emit('change:radius', radius)
+    function sendRadius() {
+        props.ed.emit('change:radius', props.radius)
     }
 
     /* Events */
@@ -41,7 +41,7 @@ function render({ props }) {
         props.radius = radiusSlider.valueAsNumber
         radiusNumber.value = props.radius
 
-        sendRadius(props.radius)
+        sendRadius()
     }
 
     function changeRadiusInput(e) {
@@ -58,7 +58,7 @@ function render({ props }) {
         props.radius = value
         radiusSlider.MaterialSlider.change(props.radius)
 
-        sendRadius(props.radius)
+        sendRadius()
     }
 }
 

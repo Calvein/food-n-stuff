@@ -9,11 +9,30 @@ let defaultProps = {
   , lng: 0
   , radius: 0
   , types: ['food', 'drinks']
+  , day: null
+  , time: null
   , query: {
         select: 'address'
       , from: TABLE_ID
       , where: null
     }
+}
+
+function beforeMount({ props }) {
+    // Listeners
+    props.ed.on('changes:types', (types) => {
+        props.types = types
+        getSpecials(props)
+    })
+    props.ed.on('change:radius', (radius) => {
+        props.radius = radius
+        getSpecials(props)
+    })
+    props.ed.on('change:time', (day, time) => {
+        props.day = day
+        props.time = time
+        getSpecials(props)
+    })
 }
 
 function render({ props }) {
@@ -26,26 +45,21 @@ function afterRender({ props }, el) {
 
         props.ed.on('resize', () => {
             map.setCenter(new google.maps.LatLng(props.lat, props.lng))
+            google.maps.event.trigger(map, 'resize')
         })
-    })
-
-    // Listeners
-    props.ed.on('changes:types', (types) => {
-        props.types = types
-        getSpecials(props)
-    })
-    props.ed.on('change:radius', (radius) => {
-        props.radius = radius
-        getSpecials(props)
     })
 }
 
 function getSpecials(props) {
-    props.query.where = `ST_INTERSECTS(address,
-        CIRCLE(LATLNG(${props.lat}, ${props.lng}), ${props.radius}))
+    props.query.where = `
+        ST_INTERSECTS(address, CIRCLE(LATLNG(${props.lat}, ${props.lng}), ${props.radius}))
         AND type IN ('${props.types.join('\',\'')}')
+        AND days CONTAINS '${props.day}'
     `
-    updateMap(props)
+        // @TODO waiting on http://stackoverflow.com/questions/31623663/fusion-table-sql-query-fails-with-numbers
+        // AND from <= ${props.time}
+        // AND to >= ${props.time}
+    if (map) updateMap(props)
 }
 
 let map
@@ -121,6 +135,7 @@ function updateMap(props) {
             })
         }
         fusionTablesLayer.setQuery(props.query)
+        console.log(props.query.where)
 
         posMarker.setPosition(new google.maps.LatLng(props.lat, props.lng))
 
@@ -132,4 +147,4 @@ function updateMap(props) {
 }
 
 
-export default { defaultProps, render, afterRender }
+export default { defaultProps, beforeMount, render, afterRender }
