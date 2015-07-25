@@ -6,30 +6,30 @@ import Drawer from './components/drawer'
 import MapComponent from './components/map'
 import Radius from './components/radius'
 
+// Global event dispatcher, passed to components to prevent singleton
+let ed = new EventEmitter
+
 function render(component) {
     let radius = 300
 
     return (
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-            <Header />
-            <Drawer />
+            <Header ed={ed} />
+            <Drawer ed={ed} />
             <main class="mdl-layout__content">
                 <div class="page-content">
-                    <MapComponent radius={radius} />
-                    <Radius radius={radius} />
+                    <MapComponent ed={ed} radius={radius} />
+                    <Radius ed={ed} radius={radius} />
                 </div>
             </main>
         </div>
     )
 }
 
-// Global event emitter
-let eventDispatcher = new EventEmitter
 window.addEventListener('resize', debounce(resize, 200))
 function resize(e) {
-    eventDispatcher.emit('resize')
+    ed.emit('resize')
 }
 
 
-export { eventDispatcher }
 export default { render }

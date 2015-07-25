@@ -1,11 +1,10 @@
 import { dom } from 'deku'
-import { eventDispatcher } from '../..'
 
 let defaultProps = {
     types: ['food', 'drinks']
 }
 
-function render(component) {
+function render({ props }) {
     return (
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
@@ -44,7 +43,7 @@ function render(component) {
         } else {
             props.types = props.types.filter((type) => type !== el.name)
         }
-        eventDispatcher.emit('changes:types', props.types)
+        props.ed.emit('changes:types', props.types)
     }
 }
 

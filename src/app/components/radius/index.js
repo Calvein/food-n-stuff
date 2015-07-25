@@ -1,6 +1,4 @@
 import { dom } from 'deku'
-import { eventDispatcher } from '../..'
-
 
 let defaultProps = {
     radius: 0
@@ -34,6 +32,9 @@ function render({ props }) {
         </div>
     )
 
+    function sendRadius(radius) {
+        props.ed.emit('change:radius', radius)
+    }
 
     /* Events */
     function changeRadiusRange(e) {
@@ -68,9 +69,6 @@ function afterRender(component, el) {
     radiusNumber = el.querySelector('[name=radius-number]')
 }
 
-function sendRadius(radius) {
-    eventDispatcher.emit('change:radius', radius)
-}
 
 
 export default { defaultProps, render, afterRender }

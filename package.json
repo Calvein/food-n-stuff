@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "start": "gulp",
-    "build": "gulp build --prod"
+    "build": "gulp build --prod",
+    "push": "npm run build && git commit -am 'Build' && git ps origin gh-pages"
   },
   "repository": {
     "type": "git",
