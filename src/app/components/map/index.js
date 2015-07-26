@@ -55,10 +55,9 @@ function getSpecials(props) {
         ST_INTERSECTS(address, CIRCLE(LATLNG(${props.lat}, ${props.lng}), ${props.radius}))
         AND type IN ('${props.types.join('\',\'')}')
         AND days CONTAINS '${props.day}'
+        AND start <= ${props.time}
+        AND end >= ${props.time}
     `
-        // @TODO waiting on http://stackoverflow.com/questions/31623663/fusion-table-sql-query-fails-with-numbers
-        // AND from <= ${props.time}
-        // AND to >= ${props.time}
     if (map) updateMap(props)
 }
 
@@ -135,7 +134,6 @@ function updateMap(props) {
             })
         }
         fusionTablesLayer.setQuery(props.query)
-        console.log(props.query.where)
 
         posMarker.setPosition(new google.maps.LatLng(props.lat, props.lng))
 
