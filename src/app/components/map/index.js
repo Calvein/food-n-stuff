@@ -2,7 +2,7 @@ import { dom } from 'deku'
 import { getCoords } from '../../modules/geolocation'
 
 
-const TABLE_ID = '1BHnaan3YfSDq9_LzjthDXjj5dzJZANjLSb8JHPl5'
+const TABLE_ID = '1Fl6OQ8BOdTuGj7ZXM68PRKlvCesfZ6BR161Hl1u7'
 
 let defaultProps = {
     lat: 0
@@ -95,7 +95,7 @@ function updateMap(props) {
             fusionTablesLayer.addListener('click', (e) => {
                 let getVal = (col) => {
                     let value = e.row[col].value
-                    if (col === 'from' || col === 'to') {
+                    if (col === 'start' || col === 'end') {
                         value = value.replace(/(..)$/, ':$1')
                     }
 
@@ -107,7 +107,7 @@ function updateMap(props) {
                         <div class="infowindow__name">${getVal('establishment')}</div>
                         <div class="infowindow__address">${getVal('address')}</div>
                         <div class="infowindow__description">${getVal('description')}</div>
-                        <div class="infowindow__time">From ${getVal('from')} to ${getVal('to')}</div>
+                        <div class="infowindow__time">From ${getVal('start')} to ${getVal('end')}</div>
                     </div>
                 `
             })
@@ -134,6 +134,7 @@ function updateMap(props) {
             })
         }
         fusionTablesLayer.setQuery(props.query)
+        console.log(props.query.where)
 
         posMarker.setPosition(new google.maps.LatLng(props.lat, props.lng))
 
