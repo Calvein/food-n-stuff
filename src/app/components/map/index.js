@@ -1,14 +1,15 @@
 import { dom } from 'deku'
+import marked from 'marked'
 import { getCoords } from '../../modules/geolocation'
 
 
-const TABLE_ID = '1Fl6OQ8BOdTuGj7ZXM68PRKlvCesfZ6BR161Hl1u7'
+const TABLE_ID = '1VNEAFcgkdBs1nYgQFqoteeuSsxQJKMOPtxww1DAY'
 
 let defaultProps = {
     lat: 0
   , lng: 0
   , radius: 0
-  , types: ['food', 'drinks']
+  , types: ['food', 'drink']
   , day: null
   , time: null
   , query: {
@@ -104,10 +105,11 @@ function updateMap(props) {
 
                 e.infoWindowHtml = `
                     <div class="infowindow">
+                        <h3 class="infowindow__title">${getVal('title')}</h3>
+                        <div class="infowindow__description">${marked(getVal('description'))}</div>
                         <div class="infowindow__name">${getVal('establishment')}</div>
                         <div class="infowindow__address">${getVal('address')}</div>
-                        <div class="infowindow__description">${getVal('description')}</div>
-                        <div class="infowindow__time">From ${getVal('start')} to ${getVal('end')}</div>
+                        <time class="infowindow__time">From ${getVal('start')} to ${getVal('end')}</time>
                     </div>
                 `
             })
@@ -134,7 +136,6 @@ function updateMap(props) {
             })
         }
         fusionTablesLayer.setQuery(props.query)
-        console.log(props.query.where)
 
         posMarker.setPosition(new google.maps.LatLng(props.lat, props.lng))
 

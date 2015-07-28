@@ -3,18 +3,35 @@
     flex-basis 100%
 
 .infowindow
+    // .infowindow__title
+    &__title
+        margin 10px 0
+        font-size 18px
+        line-height 1.2
+        font-weight bold
+
+    // .infowindow__description
+    &__description
+        max-width 500px
+        margin 10px 0
+
+        p
+            margin-bottom 10px
+            line-height 1.5
+            font-size 13px
+            font-weight 300
+            white-space pre-wrap
+
+        ul
+            margin-left 20px
+
     // .infowindow__name
     &__name
-        font-size 18px
-        font-weight bold
+        font-size 16px
+        font-weight 500
 
     // .infowindow__address
     &__address
     // .infowindow__time
     &__time
         font-size 12px
-
-    // .infowindow__description
-    &__description
-        margin 10px 0
-        font-size 18px

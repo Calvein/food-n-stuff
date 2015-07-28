@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "debounce": "^1.0.0",
-    "deku": "^0.4.9"
+    "deku": "^0.4.9",
+    "marked": "^0.3.3"
   }
 }

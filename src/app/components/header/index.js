@@ -1,7 +1,7 @@
 import { dom } from 'deku'
 
 let defaultProps = {
-    types: ['food', 'drinks']
+    types: ['food', 'drink']
 }
 
 function render({ props }) {
@@ -22,7 +22,7 @@ function render({ props }) {
                 </label>
                 <label class="mdl-icon-toggle mdl-js-icon-toggle mdl-js-ripple-effect">
                     <input
-                        name="drinks"
+                        name="drink"
                         onChange={changeType}
                         type="checkbox"
                         class="mdl-icon-toggle__input"
